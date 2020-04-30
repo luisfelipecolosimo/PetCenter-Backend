@@ -1,4 +1,6 @@
 node_modules
+tmp
+deve.sqlite
 build
 npm-debug.log
 .env

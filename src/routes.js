@@ -3,30 +3,27 @@ const { celebrate, Segments, Joi } = require('celebrate');
 const multer = require('multer');
 const multerConfig = require('./config/multer');
 
+const IncidentController = require('./controllers/IncidentController');
+const ProfileController = require('./controllers/ProfileController');
+const SessionController = require('./controllers/SessionController');
+const UserController = require('./controllers/UserController');
+
 
 const routes = express.Router();
 
-routes.get('/session', (req,res) =>{});
+routes.post('/session', SessionController.create);
 
-
-routes.post('/user', (req,res) =>{});
-routes.get('/user', (req,res) =>{});
+routes.post('/user', UserController.create);
+routes.get('/user',  UserController.index);
 //routes.delete('/user', (req,res) =>{});
 
-routes.get('/profile', (req,res) =>{});
+routes.get('/profile', ProfileController.index);
 
-routes.post('/incidents', (req,res) =>{});
-routes.get('/incidents', (req,res) =>{});
-routes.delete('/incidents/:id', (req,res) =>{});
+routes.post('/incidents', IncidentController.create);
+routes.get('/incidents', IncidentController.index);
+routes.delete('/incidents/:id', IncidentController.delete);
 
 
-routes.post('/test',multer(multerConfig).single('image'), (req,res) =>{
-  console.log(req.file);
-  const {user} = req.body
-  const {location:url=''} = req.file
-  console.log(user);
-  console.log(url);
-  return res.json({msg : req.file.filename})
- });
+routes.post('/test',multer(multerConfig).single('image'),IncidentController.create );
 
 module.exports = routes;
