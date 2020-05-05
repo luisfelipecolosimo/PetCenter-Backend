@@ -19,7 +19,7 @@ module.exports = {
 
       const user = await connection('user').where('email',email).select('email');
       if(user.length!=0){
-        return res.json({msg:'Email Ja existe'})
+        return res.json({error:'Email Ja existe'})
       }
       const verification = generateUniqueId();
       const pass = generateUniquePass.generateUniquePass(password);
@@ -32,6 +32,8 @@ module.exports = {
           verification,
       })
 
-      return res.json({ msg: "OK" });
+      const userId = await connection('user').where('email',email).select('id','verification').first();
+
+      return res.json({ id: userId['id'], verification: userId['verification'] });
   }
 };
